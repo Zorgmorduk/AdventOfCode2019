@@ -15,9 +15,9 @@ while command != 99:
     elif command == 2:  # multiplication
         data[data[index + 3]] = data[data[index + 1]] * data[data[index + 2]]
     index += 4
-    if index <= len(data):  # just safety check
+    if index <= len(data):  # just safety check to avoid running out of index bounds, but input data should prevent this
         command = data[index]
     else:
         command = 99
 
-print("Tha answer is: ", data[0])
+print("The answer is: ", data[0])

@@ -1,8 +1,6 @@
 # !/usr/bin/python3
 # AdventOfCode2019 - Day2part2
 
-from random import randrange
-
 data = input("Paste the input here and press [Enter]: ")
 data = data.split(",")
 data = list(map(int, data))

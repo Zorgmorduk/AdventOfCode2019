@@ -18,43 +18,33 @@ def interpret_command(x):
     return [opcode, mode3 + mode1 + mode2]
 
 
+def calculate(modes, operator):
+    global data
+    if modes[1] == "0":
+        a = int(data[int(data[index + 1])])
+    else:
+        a = int(data[index + 1])
+    if modes[2] == "0":
+        b = int(data[int(data[index + 2])])
+    else:
+        b = int(data[index + 2])
+    if operator == "*":
+        result = a * b
+    else:
+        result = a + b
+    if modes[0] == "0":
+        data[int(data[index + 3])] = str(result)
+    else:
+        data[index + 3] = str(result)
+
+
 command = interpret_command(add_leading_zero(data[index]))
 while int(command[0]) != 99:
     index_step = 4
-    if int(command[0]) == 1:  # addition with three parameters
-        if command[1] == "000":  # all are in position mode
-            data[int(data[index + 3])] = str(int(data[int(data[index + 1])]) + int(data[int(data[index + 2])]))
-        elif command[1] == "001":
-            data[int(data[index + 3])] = str(int(data[int(data[index + 1])]) + int(data[index + 2]))
-        elif command[1] == "010":
-            data[int(data[index + 3])] = str(int(data[index + 1]) + int(data[int(data[index + 2])]))
-        elif command[1] == "100":
-            data[index + 3] = str(int(data[int(data[index + 1])]) + int(data[int(data[index + 2])]))
-        elif command[1] == "011":
-            data[int(data[index + 3])] = str(int(data[index + 1]) + int(data[index + 2]))
-        elif command[1] == "110":
-            data[index + 3] = str(int(data[index + 1]) + int(data[int(data[index + 2])]))
-        elif command[1] == "101":
-            data[index + 3] = str(int(data[int(data[index + 1])]) + int(data[index + 2]))
-        elif command[1] == "111":  # all are in immediate mode
-            data[index + 3] = str(int(data[index + 1]) + int(data[index + 2]))
+    if int(command[0]) == 1:  # addition
+        calculate(command[1], "+")
     elif int(command[0]) == 2:  # multiplication
-        if command[1] == "000":  # all are in position mode
-            data[int(data[index + 3])] = str(int(data[int(data[index + 1])]) * int(data[int(data[index + 2])]))
-        elif command[1] == "001":
-            data[int(data[index + 3])] = str(int(data[int(data[index + 1])]) * int(data[index + 2]))
-        elif command[1] == "010":
-            data[int(data[index + 3])] = str(int(data[index + 1]) * int(data[int(data[index + 2])]))
-        elif command[1] == "100":
-            data[index + 3] = str(int(data[int(data[index + 1])]) * int(data[int(data[index + 2])]))
-        elif command[1] == "011":
-            data[int(data[index + 3])] = str(int(data[index + 1]) * int(data[index + 2]))
-        elif command[1] == "110":
-            data[index + 3] = str(int(data[index + 1]) * int(data[int(data[index + 2])]))
-        elif command[1] == "101":
-            data[index + 3] = str(int(data[int(data[index + 1])]) * int(data[index + 2]))
-        elif command[1] == "111":  # all are in immediate mode
-            data[index + 3] = str(int(data[index + 1]) * int(data[index + 2]))
+        calculate(command[1], "*")
     elif int(command[0]) == 3:  # input
         index_step = 2
         data[int(data[index + 1])] = input("Please provide your input:")
@@ -62,7 +52,4 @@ while int(command[0]) != 99:
         index_step = 2
         print(data[int(data[index + 1])])
     index += index_step
-    if index <= len(data):  # just safety check to avoid running out of index bounds, but input data should prevent this
-        command = interpret_command(add_leading_zero(data[index]))
-    else:
-        command = ["99", "0", "0", "0"]
+    command = interpret_command(add_leading_zero(data[index]))

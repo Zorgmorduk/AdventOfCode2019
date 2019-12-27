@@ -17,13 +17,14 @@ def interpret_command(x):
 def execute(command, index, data):
 
     index_step = 4  # default
-    operator = int(command[0])
+    result = 0
+    opcode = int(command[0])
     mode = command[1]
 
-    if operator == 3:  # input
+    if opcode == 3:  # input
         index_step = 2
         data[int(data[index + 1])] = input("Please provide your additional input: ")
-    elif operator == 4:  # output
+    elif opcode == 4:  # output
         index_step = 2
         print(data[int(data[index + 1])])
     else:
@@ -37,30 +38,30 @@ def execute(command, index, data):
         else:
             b = int(data[index + 2])
 
-        if operator == 2:
+        if opcode == 2:
             result = a * b
-        elif operator == 1:
+        elif opcode == 1:
             result = a + b
-        elif operator == 5:
+        elif opcode == 5:
             if a != 0:
                 index = b
                 index_step = 0
             else:
                 index_step = 3
             return index, index_step, data
-        elif operator == 6:
+        elif opcode == 6:
             if a == 0:
                 index = b
                 index_step = 0
             else:
                 index_step = 3
             return index, index_step, data
-        elif operator == 7:
+        elif opcode == 7:
             if a < b:
                 result = 1
             else:
                 result = 0
-        elif operator == 8:
+        elif opcode == 8:
             if a == b:
                 result = 1
             else:

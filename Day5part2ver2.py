@@ -15,7 +15,6 @@ def interpret_command(x):
 
 
 def execute(command, index, data):
-
     index_step = 4  # default
     result = 0
     opcode = int(command[0])
